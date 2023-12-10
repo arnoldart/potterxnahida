@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function Auth() {
+export default function Register() {
   return (
     <main>
       <section className='flex justify-center items-center h-screen w-auto px-10 mx-auto gap-x-[2rem]'>
@@ -20,14 +20,14 @@ export default function Auth() {
           <form className='text-black flex flex-col gap-y-3 mt-3'>
             {/* Menambahkan style untuk memperbesar input */}
             <input className='p-2 text-lg outline-none border border-gray-500' type="text" placeholder='Username' />
+            <input className='p-2 text-lg outline-none border border-gray-500' type="text" placeholder='Email' />
             <input className='p-2 text-lg outline-none border border-gray-500' type="text" placeholder='Password' />
           </form>
           <div className='bg-blue-700 cursor-pointer mt-3 rounded py-3'>
-            <p className='text-center text-white text-xl'>Login</p>
+            <p className='text-center text-white text-xl'>Register</p>
           </div>
-          <p className='text-black'>Belum punya akun?</p>
-          <Link href='/register'>
-            <p className='text-blue-500'>buat akun baru</p>
+          <Link href='/'>
+            <p className='text-blue-500'>Sudah punya akun?</p>
           </Link>
         </div>
       </section>
