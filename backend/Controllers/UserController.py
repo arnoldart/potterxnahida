@@ -18,10 +18,11 @@ def add_user():
     username = data['username']
     password = data['password']
     email = data['email']
+    role = data['role']
     
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
     
-    new_user = User(username=username, password=hashed_password, email=email)
+    new_user = User(username=username, password=hashed_password, email=email, role=role)
     db.session.add(new_user)
 
     try:
