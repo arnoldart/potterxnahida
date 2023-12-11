@@ -1,7 +1,39 @@
+'use client'
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 
 export default function Register() {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handlerRegister = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/add_user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          email,
+          password,
+        }),
+      });
+
+      if (response.ok) {
+        // Registrasi berhasil, Anda mungkin ingin melakukan navigasi atau menangani respons API sesuai kebutuhan
+        console.log('Registrasi berhasil!');
+      } else {
+        // Registrasi gagal, Anda dapat menangani kesalahan di sini
+        console.error('Registrasi gagal!');
+      }
+    } catch (e) {
+      console.error('Error Register', e)
+    }
+  }
+
   return (
     <main>
       <section className='flex justify-center items-center h-screen w-auto px-10 mx-auto gap-x-[2rem]'>
@@ -18,12 +50,11 @@ export default function Register() {
         <div className='flex-1 bg-white p-5 rounded'>
           <p className='text-center'>Selamat Datang</p>
           <form className='text-black flex flex-col gap-y-3 mt-3'>
-            {/* Menambahkan style untuk memperbesar input */}
-            <input className='p-2 text-lg outline-none border border-gray-500' type="text" placeholder='Username' />
-            <input className='p-2 text-lg outline-none border border-gray-500' type="text" placeholder='Email' />
-            <input className='p-2 text-lg outline-none border border-gray-500' type="text" placeholder='Password' />
+            <input onChange={(e) => setUsername(e.target.value)} className='p-2 text-lg outline-none border border-gray-500' type="text" placeholder='Username' />
+            <input onChange={(e) => setEmail(e.target.value)} className='p-2 text-lg outline-none border border-gray-500' type="text" placeholder='Email' />
+            <input onChange={(e) => setPassword(e.target.value)} className='p-2 text-lg outline-none border border-gray-500' type="text" placeholder='Password' />
           </form>
-          <div className='bg-blue-700 cursor-pointer mt-3 rounded py-3'>
+          <div onClick={handlerRegister} className='bg-blue-700 cursor-pointer mt-3 rounded py-3'>
             <p className='text-center text-white text-xl'>Register</p>
           </div>
           <Link href='/'>

@@ -14,7 +14,7 @@ const NavbarAuth = ({ font }: any) => {
               </Link>
             </li>
             <li>
-              <Link href="/courses">
+              <Link href="/home">
                 <p className="cursor-pointer">Courses</p>
               </Link>
             </li>

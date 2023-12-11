@@ -1,11 +1,13 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_migrate import Migrate
 # IMPORT MODEL
-from Models.UserModel import db, bcrypt
+from Models.UserModel import db
 # IMPORT CONTROLLER
 from Controllers.UserController import main_bp
 
 app = Flask(__name__)
+CORS(app)
 # Menambahkan path proyek ke dalam sys.path
 
 # Konfigurasi database

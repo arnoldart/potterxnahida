@@ -18,7 +18,7 @@ export default function Home() {
             </Link>
             <Link href={''}>
               <div className='bg-blue-500 px-5 py-3 text-[70px] rounded-[3rem] border-4 border-black'>
-                <p className='text-white'>Read Team</p>
+                <p className='text-white'>Blue Team</p>
               </div>
             </Link>
           </div>
