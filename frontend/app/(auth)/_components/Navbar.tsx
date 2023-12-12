@@ -1,7 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 
-const NavbarAuth = ({ font }: any) => {
+const Navbar = ({ font }: any) => {
   return (
     <div className={font}>
       <div className="bg-[#6B932F] text-white font-bold">
@@ -9,13 +8,8 @@ const NavbarAuth = ({ font }: any) => {
           <p className="z-10">POTTER X NABILA</p>
           <ul className="flex gap-x-[1.2rem]">
             <li>
-              <Link href="/home">
+              <Link href="/">
                 <p className="cursor-pointer">Home</p>
-              </Link>
-            </li>
-            <li>
-              <Link href="/home">
-                <p className="cursor-pointer">Courses</p>
               </Link>
             </li>
             <li>
@@ -29,8 +23,8 @@ const NavbarAuth = ({ font }: any) => {
               </Link>
             </li>
             <li>
-              <Link href="/">
-                <p className="bg-white text-[#B9DA77] px-5 py-1 rounded-full cursor-pointer">Login</p>
+              <Link href="/login" className="bg-white text-[#B9DA77] px-5 py-1 rounded-full cursor-pointer">
+                Login
               </Link>
             </li>
           </ul>
@@ -39,5 +33,4 @@ const NavbarAuth = ({ font }: any) => {
     </div>
   );
 };
-
-export default NavbarAuth;
+export default Navbar;

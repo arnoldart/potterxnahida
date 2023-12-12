@@ -1,44 +1,66 @@
 'use client'
-import { checkAuth } from '@/utils/checkAuth';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { checkAuth } from '@/utils/checkAuth';
 
-export default function Register() {
+export default function Auth() {
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const router = useRouter()
 
-  const handlerRegister = async () => {
+  useEffect(() => {
+    // Cek apakah pengguna telah login
+    if (!checkAuth()) {
+      // Jika tidak, redirect ke halaman login
+      router.push('/login');
+    }else {
+      router.push('/')
+    }
+  }, []);
+
+  const handlerLogin = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/add_user', {
+      const response = await fetch('http://127.0.0.1:5000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           username,
-          email,
           password,
         }),
       });
 
       if (response.ok) {
-        // Registrasi berhasil, Anda mungkin ingin melakukan navigasi atau menangani respons API sesuai kebutuhan
-        console.log('Registrasi berhasil!');
-        router.push('/login')        
+        const responseData = await response.json();
+        const token = responseData.token;
+        const role = responseData.role;
+
+        Cookies.set('token', token, { expires: 1, path: '/' });
+
+        if (role === 'admin') {
+          console.log('Admin login berhasil!');
+          router.push('/dashboard');
+          // Lakukan navigasi atau tindakan lain untuk admin
+        } else {
+          console.log('User login berhasil!');
+          router.push('/');
+          // Lakukan navigasi atau tindakan lain untuk user
+        }
+
       } else {
         // Registrasi gagal, Anda dapat menangani kesalahan di sini
-        console.error('Registrasi gagal!');
+        console.error('Login gagal!');
       }
     } catch (e) {
       console.error('Error Register', e)
     }
   }
-
   return (
     <main>
       <section className='flex justify-center items-center h-screen w-auto px-10 mx-auto gap-x-[2rem]'>
@@ -55,15 +77,16 @@ export default function Register() {
         <div className='flex-1 bg-white p-5 rounded'>
           <p className='text-center'>Selamat Datang</p>
           <form className='text-black flex flex-col gap-y-3 mt-3'>
-            <input onChange={(e) => setUsername(e.target.value)} className='p-2 text-lg outline-none border border-gray-500' type="text" placeholder='Username' required/>
-            <input onChange={(e) => setEmail(e.target.value)} className='p-2 text-lg outline-none border border-gray-500' type="text" placeholder='Email' required />
+            {/* Menambahkan style untuk memperbesar input */}
+            <input onChange={(e) => setUsername(e.target.value)} className='p-2 text-lg outline-none border border-gray-500' type="text" placeholder='Username' required />
             <input onChange={(e) => setPassword(e.target.value)} className='p-2 text-lg outline-none border border-gray-500' type="text" placeholder='Password' required />
           </form>
-          <div onClick={handlerRegister} className='bg-blue-700 cursor-pointer mt-3 rounded py-3'>
-            <p className='text-center text-white text-xl'>Register</p>
+          <div onClick={handlerLogin} className='bg-blue-700 cursor-pointer mt-3 rounded py-3'>
+            <p className='text-center text-white text-xl'>Login</p>
           </div>
-          <Link href='/login'>
-            <p className='text-blue-500'>Sudah punya akun?</p>
+          <p className='text-black'>Belum punya akun?</p>
+          <Link href='/register'>
+            <p className='text-blue-500'>buat akun baru</p>
           </Link>
         </div>
       </section>

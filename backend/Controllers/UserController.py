@@ -18,7 +18,7 @@ def add_user():
     username = data['username']
     password = data['password']
     email = data['email']
-    role = data['role']
+    role = 'user'
     
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
     
@@ -39,16 +39,19 @@ def add_user():
 
 @main_bp.route('/login', methods=['POST'])
 def login():
-    data = request.json  # Mengambil data JSON dari body permintaan
+    data = request.json
 
-    # Memeriksa keberadaan username dan password dalam data JSON
     if 'username' not in data or 'password' not in data:
         return jsonify({'error': 'Missing username or password'}), 400
 
     user = User.query.filter_by(username=data['username']).first()
 
     if user and user.check_password(data['password']):
-        return jsonify({'message': 'Login successful'}), 200
+        # Menambahkan pemeriksaan peran di sini
+        if user.role == 'admin':
+            return jsonify({'message': 'Admin login successful', 'token': "token admin", 'role': user.role}), 200
+        else:
+            return jsonify({'message': 'User login successful', 'token': "token user", 'role': user.role}), 200
     else:
         return jsonify({'error': 'Invalid username or password'}), 401
 

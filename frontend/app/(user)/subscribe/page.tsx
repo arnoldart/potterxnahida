@@ -1,7 +1,21 @@
+'use client'
+import { checkAuth } from '@/utils/checkAuth';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function Subscribe() {
+  const router = useRouter()
+
+  useEffect(() => {
+    // Cek apakah pengguna telah login
+    if (!checkAuth()) {
+      // Jika tidak, redirect ke halaman login
+      router.push('/login');
+    }
+  }, []);
+  
   return (
     <main>
       <section className='flex justify-center items-center h-screen w-auto px-10 mx-auto gap-x-[2rem]'>
