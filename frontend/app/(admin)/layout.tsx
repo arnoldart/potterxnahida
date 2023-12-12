@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import NavbarAdmin from './_components/NavbarAdmin'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -11,8 +12,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="">
-      <body>{children}</body>
-    </html>
+    <div lang="en" className="flex">
+      <NavbarAdmin />
+      <div className='flex-1'>{children}</div>
+    </div>
   )
 }
