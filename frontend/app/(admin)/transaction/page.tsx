@@ -1,4 +1,68 @@
+'use client'
+
+import { checkAuth } from "@/utils/checkAuth";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
+type UserData = {
+  users: {
+    id: number,
+    username: string,
+    email: string,
+    role: string
+  }[]
+}
+
 const TransactionPage = () => {
+  const router = useRouter()
+  const [userData, setUserData] = useState<UserData | []>([])
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/get_users', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          // Add any additional headers or authentication tokens if needed
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUserData(data);
+      } else {
+        console.error('Error fetching user data:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
+
+  const deleteUser = async (userId:number) => {
+    try {
+      await fetch(`http://127.0.0.1:5000/delete_user/${userId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      fetchData();
+    } catch (error) {
+      console.error('Error deleting user:', error);
+    }
+  };
+
+  useEffect(() => {
+    // Check if the user is authenticated
+    if (!checkAuth()) {
+      // If not authenticated, redirect to the login page
+      router.push('/login');
+    } else {
+      // If authenticated, fetch user data
+      fetchData();
+    }
+  }, []);
+
   return (
     <div className="py-3 px-5">
       <div className="flex justify-between">
@@ -10,30 +74,35 @@ const TransactionPage = () => {
       {/* <div className="container mx-auto"> */}
         <table className="w-full border border-black mt-3">
           <thead className="border border-black">
-              <tr>
-                  <th className="border border-black p-2">Username</th>
-                  <th className="border border-black p-2">Email</th>
-                  <th className="border border-black p-2">Role</th>
-                  <th className="border border-black p-2">Detail Transaksi</th>
-              </tr>
+            <tr>
+              <th className="border border-black p-2">Username</th>
+              <th className="border border-black p-2">Email</th>
+              <th className="border border-black p-2">Status</th>
+            </tr>
           </thead>
           <tbody>
-              <tr>
-                  <td className="border border-black p-2">john_doe</td>
-                  <td className="border border-black p-2">john.doe@example.com</td>
-                  <td className="border border-black p-2">User</td>
-                  <td className="border border-black p-2">
-                    <div className="px-3 py-1 bg-black text-white text-center rounded">
-                      Detail
+          {userData ? (
+            userData?.map((user:any) => (
+              <tr key={user.id}>
+                <td className="border border-black p-2">{user.username}</td>
+                <td className="border border-black p-2">{user.email}</td>
+                <td className="border border-black p-2">
+                  <div className="justify-center flex">
+                    <div className={`${user.transactions.length === 0 ? "bg-red-500" : "bg-green-500"} text-white rounded text-center inline-block px-3 py-1`}>
+                      <p>{user.transactions.length === 0 ? "belum membayar" : "sudah membayar"}</p>
                     </div>
-                  </td>
+                  </div>
+                </td>
               </tr>
-              <tr>
-                  <td className="border border-black p-2">jane_smith</td>
-                  <td className="border border-black p-2">jane.smith@example.com</td>
-                  <td className="border border-black p-2">Admin</td>
-              </tr>
-          </tbody>
+            ))
+          ) : (
+            <tr>
+              <td className="border border-black p-2">
+                No user data available.
+              </td>
+            </tr>
+          )}
+        </tbody>
         </table>
       {/* </div> */}
     </div>

@@ -49,14 +49,40 @@ def login():
     if user and user.check_password(data['password']):
         # Menambahkan pemeriksaan peran di sini
         if user.role == 'admin':
-            return jsonify({'message': 'Admin login successful', 'token': "token admin", 'role': user.role}), 200
+            return jsonify({'message': 'Admin login successful', 'token': "token admin", 'role': user.role, 'id': user.id}), 200
         else:
-            return jsonify({'message': 'User login successful', 'token': "token user", 'role': user.role}), 200
+            return jsonify({'message': 'User login successful', 'token': "token user", 'role': user.role, 'id': user.id}), 200
     else:
         return jsonify({'error': 'Invalid username or password'}), 401
 
 @main_bp.route('/get_users', methods=['GET'])
-def get_users():
+def get_user():
     users = User.query.all()
-    user_list = [{'id': user.id, 'username': user.username} for user in users]
-    return jsonify({'users': user_list})
+    user_data = []
+
+    for user in users:
+        transactions = [
+            {'id': transaction.id, 'type': transaction.type, 'status': transaction.status}
+            for transaction in user.transactions
+        ]
+
+        user_data.append({
+            'id': user.id,
+            'username': user.username,
+            'email': user.email,
+            'transactions': transactions,
+            'role': user.role
+        })
+
+    return jsonify(user_data)
+
+@main_bp.route('/delete_user/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    user = User.query.get(user_id)
+    
+    if user:
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify({'message': 'User deleted successfully'})
+    else:
+        return jsonify({'error': 'User not found'}), 404

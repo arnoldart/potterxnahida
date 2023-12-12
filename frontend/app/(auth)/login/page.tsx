@@ -40,8 +40,10 @@ export default function Auth() {
         const responseData = await response.json();
         const token = responseData.token;
         const role = responseData.role;
+        const id = responseData.id;
 
         Cookies.set('token', token, { expires: 1, path: '/' });
+        Cookies.set('id', id, { expires: 1, path: '/' });
 
         if (role === 'admin') {
           console.log('Admin login berhasil!');

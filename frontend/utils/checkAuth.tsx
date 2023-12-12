@@ -8,4 +8,5 @@ export const checkAuth = () => {
 
 export const removeToken = () => {
   Cookies.remove('token');
+  Cookies.remove('id');
 };
