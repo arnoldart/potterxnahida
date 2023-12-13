@@ -1,6 +1,7 @@
 from flask_bcrypt import Bcrypt
 from flask import Blueprint, jsonify, request
-from Models.UserModel import User, db
+from sqlalchemy import desc
+from Models.UserModel import Transaction, User, db
 
 main_bp = Blueprint('main', __name__)
 bcrypt = Bcrypt()
@@ -55,26 +56,54 @@ def login():
     else:
         return jsonify({'error': 'Invalid username or password'}), 401
 
+# @main_bp.route('/get_users', methods=['GET'])
+# def get_user():
+#     users = User.query.all()
+#     user_data = []
+
+#     for user in users:
+#         user_transactions = Transaction.query.filter_by(user_id=user.id).all()
+#         transactions = [{'status': transaction.status, 'type': transaction.type} for transaction in user_transactions]
+
+#         user_data.append({
+#             'id': user.id,
+#             'username': user.username,
+#             'email': user.email,
+#             'transactions': transactions,
+#             'role': user.role
+#         })
+
+#     return jsonify(user_data)
+
 @main_bp.route('/get_users', methods=['GET'])
-def get_user():
-    users = User.query.all()
-    user_data = []
+def get_users():
+    try:
+        search_username = request.args.get('username', default=None, type=str)
 
-    for user in users:
-        transactions = [
-            {'id': transaction.id, 'type': transaction.type, 'status': transaction.status}
-            for transaction in user.transactions
-        ]
+        # If search_username is provided, filter by username
+        if search_username:
+            users = User.query.filter(User.username.ilike(f'%{search_username}%')).all()
+        else:
+            # Fetch users in descending order based on their id
+            users = User.query.order_by(desc(User.id)).all()
 
-        user_data.append({
-            'id': user.id,
-            'username': user.username,
-            'email': user.email,
-            'transactions': transactions,
-            'role': user.role
-        })
+        user_data = []
 
-    return jsonify(user_data)
+        for user in users:
+            user_transactions = Transaction.query.filter_by(user_id=user.id).all()
+            transactions = [{'status': transaction.status, 'type': transaction.type} for transaction in user_transactions]
+
+            user_data.append({
+                'id': user.id,
+                'username': user.username,
+                'email': user.email,
+                'transactions': transactions,
+                'role': user.role
+            })
+
+        return jsonify(user_data)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 @main_bp.route('/delete_user/<int:user_id>', methods=['DELETE'])
 def delete_user(user_id):

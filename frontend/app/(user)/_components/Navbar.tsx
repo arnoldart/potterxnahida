@@ -34,11 +34,6 @@ const Navbar = ({ font }: any) => {
               </Link>
             </li>
             <li>
-              <Link className="cursor-pointer" href="/subscribe">
-                Subscribe 
-              </Link>
-            </li>
-            <li>
               <div onClick={handleLogin} className="bg-white text-[#B9DA77] px-5 py-1 rounded-full cursor-pointer">
                 <p>Logout</p>
               </div>

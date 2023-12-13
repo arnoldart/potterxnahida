@@ -26,12 +26,12 @@ export default function Home() {
             <p className='text-[35px]'>Silahkan pilih road map yang ingin anda pelajari</p>
           </div>
           <div className='flex justify-between mt-16'>
-            <Link href={''}>
+            <Link href={'/red'}>
               <div className='bg-red-500 px-5 py-3 text-[70px] rounded-[3rem] border-4 border-black'>
                 <p className='text-white'>Read Team</p>
               </div>
             </Link>
-            <Link href={''}>
+            <Link href={'/blue'}>
               <div className='bg-blue-500 px-5 py-3 text-[70px] rounded-[3rem] border-4 border-black'>
                 <p className='text-white'>Blue Team</p>
               </div>

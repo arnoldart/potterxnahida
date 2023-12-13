@@ -16,10 +16,11 @@ type UserData = {
 const DashboardPage = () => {
   const router = useRouter()
   const [userData, setUserData] = useState<UserData | []>([])
+  const [username, setUsername] = useState('')
 
-  const fetchData = async () => {
+  const fetchData = async (searchUsername: string) => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/get_users', {
+      const response = await fetch(`http://127.0.0.1:5000/get_users?username=${username || ''}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -46,10 +47,19 @@ const DashboardPage = () => {
           'Content-Type': 'application/json',
         },
       });
-      fetchData();
+      fetchData(username);
     } catch (error) {
       console.error('Error deleting user:', error);
     }
+  };
+
+  const handleSearch = (event: React.FormEvent) => {
+    event.preventDefault();
+    fetchData(username);
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(event.target.value);
   };
 
   useEffect(() => {
@@ -59,16 +69,16 @@ const DashboardPage = () => {
       router.push('/login');
     } else {
       // If authenticated, fetch user data
-      fetchData();
+      fetchData(username);
     }
-  }, []);
+  }, [username]);
 
   return (
     <div className="py-3 px-5">
       <div className="flex justify-between">
         <h1>Dashboard</h1>
-        <form action="">
-          <input type="text" className="text-black outline-none border-2 border-black" placeholder="Search..." />
+        <form onSubmit={handleSearch}>
+          <input onChange={handleInputChange} type="text" className="text-black outline-none border-2 border-black" placeholder="Search..." />
         </form>
       </div>
       {/* <div className="container mx-auto"> */}

@@ -18,11 +18,6 @@ const Navbar = ({ font }: any) => {
               </Link>
             </li>
             <li>
-              <Link href="/subscribe">
-                <p className="cursor-pointer">Subscribe</p>
-              </Link>
-            </li>
-            <li>
               <Link href="/login" className="bg-white text-[#B9DA77] px-5 py-1 rounded-full cursor-pointer">
                 Login
               </Link>

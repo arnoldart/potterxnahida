@@ -20,6 +20,11 @@ export default function Subscribe() {
 
   const handleSubscribe = async () => {
     try {
+      if (isNaN(amount) || amount !== 70000) {
+        alert('Invalid amount. Please enter a valid amount.');
+        return;
+      }
+
       const response = await fetch('http://localhost:5000/create_transaction', {
         method: 'POST',
         headers: {
@@ -34,7 +39,7 @@ export default function Subscribe() {
       });
 
       if (response.ok) {
-        console.log('Langganan berhasil!');
+        alert("Langganan berhasil!")
         router.push('/');
         // Lakukan tindakan lanjutan jika diperlukan
       } else {
@@ -55,11 +60,11 @@ export default function Subscribe() {
             <p className='text-[#6B932F]'>089687138815</p>
           </div>
           <div>
-            <p className='text-[#6B932F]'>alamat email anda</p>
+            <p className='text-[#6B932F]'>Bayar Rp 70.000</p>
             <form className='bg-[#EEFCD0]'>
               <input onChange={(e) => setAmount(Number(e.target.value))} className='outline-none bg-transparent' type="text" required />
             </form>
-            <button onClick={handleSubscribe} className='bg-[#A2C668] w-full text-center border border-black py-3 px-5 rounded-lg cursor-pointer'>
+            <button onClick={handleSubscribe} className='bg-[#A2C668] w-full text-center border border-black py-3 px-5 rounded-lg cursor-pointer mt-5'>
               <p className='text-white'>OK</p>
             </button>
           </div>
