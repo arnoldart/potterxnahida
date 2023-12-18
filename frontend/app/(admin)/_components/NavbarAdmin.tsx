@@ -18,7 +18,7 @@ const NavbarAdmin = () => {
   return (
     <div className="h-screen w-[10rem] bg-gray-200 text-center flex-2 px-5 py-3 flex flex-col justify-between">
       <div>
-        <p>ADMIN PAGE</p>
+        <p className="font-bold">ADMIN PAGE</p>
         <ul>
           <li>
             <Link href={'/dashboard'}>

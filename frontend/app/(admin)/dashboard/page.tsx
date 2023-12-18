@@ -20,7 +20,7 @@ const DashboardPage = () => {
 
   const fetchData = async (searchUsername: string) => {
     try {
-      const response = await fetch(`http://127.0.0.1:5000/get_users?username=${username || ''}`, {
+      const response = await fetch(`http://127.0.0.1:5000/get_users?username=${searchUsername || ''}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -76,9 +76,9 @@ const DashboardPage = () => {
   return (
     <div className="py-3 px-5">
       <div className="flex justify-between">
-        <h1>Dashboard</h1>
+        <h1 className="font-bold">Dashboard</h1>
         <form onSubmit={handleSearch}>
-          <input onChange={handleInputChange} type="text" className="text-black outline-none border-2 border-black" placeholder="Search..." />
+          <input onChange={handleInputChange} value={username} type="text" className="text-black outline-none border-2 border-black" placeholder="Search..." />
         </form>
       </div>
       {/* <div className="container mx-auto"> */}

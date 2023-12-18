@@ -34,24 +34,27 @@ def get_transactions_by_user(user_id):
 def get_transactions_all_users():
     try:
         search_username = request.args.get('username', default=None, type=str)
-        
-        # Perform an inner join to fetch transactions for all users
-        result = db.session.query(User, Transaction) \
-            .join(Transaction) \
-            .order_by(Transaction.id.desc()) \
-            .all()
-            
-        if search_username:
-            result = [entry for entry in result if entry[0].username.lower().find(search_username.lower()) != -1]
+        search_user_id = request.args.get('user_id', default=None, type=int)
 
-        # Extract relevant data from the result
+        query = db.session.query(User, Transaction) \
+            .join(Transaction) \
+            .order_by(Transaction.id.desc())
+
+        if search_username:
+            query = query.filter(User.username.ilike(f"%{search_username}%"))
+
+        if search_user_id is not None:
+            query = query.filter(User.id == search_user_id)
+
+        result = query.all()
+
         data = []
         for user, transaction in result:
             data.append({
                 "user_id": user.id,
                 "username": user.username,
-                "email": user.email,
-                "role": user.role,
+                "email": user.email,  
+                "role": user.role,    
                 "transaction_status": transaction.status,
                 "transaction_type": transaction.type,
             })

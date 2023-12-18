@@ -16,6 +16,7 @@ export default function Subscribe() {
       // Jika tidak, redirect ke halaman login
       router.push('/login');
     }
+    
   }, []);
 
   const handleSubscribe = async () => {

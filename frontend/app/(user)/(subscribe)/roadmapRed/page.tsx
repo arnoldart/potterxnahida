@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-const RoadMapBluePage = () => {
+const RoadMapRedPage = () => {
   const router = useRouter();
   useEffect(() => {
     // Check if the user is authenticated
@@ -18,7 +18,7 @@ const RoadMapBluePage = () => {
   return (
     <div className='flex justify-center mb-[10rem] mt-[10rem]'>
       <Image
-        src="/image/roadmap_blue.png"
+        src="/image/roadmap_red.png"
         alt="roadmap_blue"
         width={1000}
         height={1000}
@@ -27,4 +27,4 @@ const RoadMapBluePage = () => {
   )
 }
 
-export default RoadMapBluePage
+export default RoadMapRedPage

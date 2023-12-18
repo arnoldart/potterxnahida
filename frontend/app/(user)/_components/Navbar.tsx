@@ -21,7 +21,9 @@ const Navbar = ({ font }: any) => {
     <div className={font}>
       <div className="bg-[#6B932F] text-white font-bold">
         <div className="flex items-center justify-between py-3 px-5 max-w-[1400px] w-full mx-auto relative">
-          <p className="z-10">POTTER X NABILA</p>
+          <Link href="/">
+            POTTER X NABILA
+          </Link>
           <ul className="flex gap-x-[1.2rem]">
             <li>
               <Link className="cursor-pointer" href="/">

@@ -59,7 +59,7 @@ const TransactionPage = () => {
   return (
     <div className="py-3 px-5">
       <div className="flex justify-between">
-        <h1>Dashboard</h1>
+        <h1 className="font-bold">Transaction</h1>
         <form onSubmit={handleSearch}>
           <input onChange={handleInputChange} value={username} type="text" className="text-black outline-none border-2 border-black" placeholder="Search..." />
         </form>

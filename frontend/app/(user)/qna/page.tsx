@@ -17,7 +17,7 @@ export default function Register() {
   }, []);
   return (
     <main>
-      <section className='h-screen w-full mt-5'>
+      <section className=' px-5 h-screen w-full mt-5'>
         <div className='flex flex-col gap-y-5'>
           <div className='h-[20rem] p-7 w-full bg-white rounded-xl border border-4 text-[#6B932F] border-[#6B932F]'>
             <p>Q : bagaimana perasaan developer saat mengembangkan website ini?</p>
