@@ -40,7 +40,9 @@ export default function Subscribe() {
       });
 
       if (response.ok) {
+        Cookies.set('type_blue', 'yes', { expires: 1, path: '/' });
         alert("Langganan berhasil!")
+
         router.push('/');
         // Lakukan tindakan lanjutan jika diperlukan
       } else {

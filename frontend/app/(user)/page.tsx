@@ -63,12 +63,12 @@ export default function Home() {
             <p className='text-[35px]'>Silahkan pilih road map yang ingin anda pelajari</p>
           </div>
           <div className='flex justify-between mt-16'>
-            <Link href={!isSubscribedBlue ? '/red' : '/roadmapRed' }>
+            <Link href={Cookies.get('type_red') !== "yes" ? '/red' : '/roadmapRed' }>
               <div className='bg-red-500 px-5 py-3 text-[70px] rounded-[3rem] border-4 border-black'>
                 <p className='text-white'>Read Team</p>
               </div>
             </Link>
-            <Link href={!isSubscribedRed ? '/blue' : '/roadmapBlue' }>
+            <Link href={Cookies.get('type_blue') !== "yes" ? '/blue' : '/roadmapBlue' }>
               <div className='bg-blue-500 px-5 py-3 text-[70px] rounded-[3rem] border-4 border-black'>
                 <p className='text-white'>Blue Team</p>
               </div>
